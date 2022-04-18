@@ -1,7 +1,7 @@
 <template>
   <h1>Learning Slots</h1>
-  <button>Open modal</button>
-  <Modal>
+  <button @click="toggleModal(true)">Open modal</button>
+  <Modal v-if="isModalOpen" @on:close="toggleModal(false)">
     <template v-slot:body>
       <p>Modal contenttttttttttttt ttttttttttttttttt tttttttttttttttttttttttt</p>
     </template>
@@ -11,18 +11,24 @@
     </template>
 
     <template v-slot:footer>
-      <button>Close modal</button>
+      <button @click="toggleModal(false)">Close modal</button>
     </template>
   </Modal>
 </template>
 
 <script>
 import Modal from '@/components/Modal'
+import { ref } from 'vue'
 
 export default {
   components: { Modal },
   setup() {
+    const isModalOpen = ref(false)
 
+    return {
+      isModalOpen,
+      toggleModal: (value) => isModalOpen.value = value
+    }
   }
 }
 </script>
