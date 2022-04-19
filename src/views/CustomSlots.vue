@@ -1,7 +1,7 @@
 <template>
   <h1>Learning Slots</h1>
   <button @click="toggleModal(true)">Open modal</button>
-  <Modal v-if="isModalOpen" @on:close="toggleModal(false)">
+  <Modal v-if="isModalOpen" @on:close="toggleModal(false)" title="Custom modal" >
     <template v-slot:body>
       <p>Modal contenttttttttttttt ttttttttttttttttt tttttttttttttttttttttttt</p>
     </template>
@@ -12,6 +12,10 @@
 
     <template v-slot:footer>
       <button @click="toggleModal(false)">Close modal</button>
+    </template>
+
+    <template v-slot:exposed="{ newTitle }"> <!-- desestructuración de "slotProps" -->
+      <h3>{{ newTitle }}</h3>
     </template>
   </Modal>
 </template>

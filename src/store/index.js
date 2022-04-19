@@ -1,4 +1,5 @@
 import { createStore } from 'vuex'
+import { v4 as uuidv4 } from 'uuid'
 
 export default createStore({
   state: {
@@ -11,30 +12,38 @@ export default createStore({
     ]
   },
   mutations: {
-    toggleTaskStatus: (state, taskId) => {
+    toggleTaskStatus(state, taskId) {
       const taskIdx = state.todos.findIndex((task) => task.id === taskId)
       state.todos[taskIdx].completed = !state.todos[taskIdx].completed
+    },
+    createToDo(state, text = '') {
+      if (text.length < 1) return
+      state.todos.push({
+        id: uuidv4(),
+        completed: false,
+        text
+      })
     }
   },
   actions: {
   },
   getters: {
-    pendingTodos: (state, getters, rootState) => {
+    pendingTodos(state, getters, rootState) {
       return state.todos.filter((toDo) => !toDo.completed)
     },
-    allTodos: (state, getters, rootState) => {
+    allTodos(state, getters, rootState) {
       return [ ...state.todos ]
     },
-    completedTodos: (state, getters, rootState) => {
+    completedTodos(state, getters, rootState) {
       return state.todos.filter((toDo) => toDo.completed)
     },
     getTodosByTab: (_, getters) => (tabId) => {
-      switch (tabId) {
-        case 'all': return getters.allTodos
-        case 'pending': return getters.pendingTodos
-        case 'completed': return getters.completedTodos
+        switch (tabId) {
+          case 'all': return getters.allTodos
+          case 'pending': return getters.pendingTodos
+          case 'completed': return getters.completedTodos
+        }
       }
-    }
   },
   modules: {
   }

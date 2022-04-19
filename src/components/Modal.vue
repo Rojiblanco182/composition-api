@@ -5,6 +5,7 @@
       <hr>
       <slot name="body" />
       <slot name="footer" />
+      <slot name="exposed" :newTitle="newTitle" />
     </div>
   </div>
 </template>
@@ -12,6 +13,14 @@
 <script>
 export default {
   emits: ['on:close'],
+  props: ['title'],
+
+  setup(props, context) {
+
+    return {
+      newTitle: props.title?.toUpperCase()
+    }
+  }
 }
 </script>
 
