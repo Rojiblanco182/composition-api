@@ -4,12 +4,10 @@
   <h5 v-if="errorMessage">{{ errorMessage }}</h5>
 
   <div v-if="users.length > 0">
-    <ul>
-      <li v-for="user in users" :key="user.id">
-        <h4>{{ user.first_name }} {{ user.last_name }}</h4>
-        <h6>{{ user.email }}</h6>
-      </li>
-    </ul>
+    <user-list :users="users" v-slot="{ user }"> <!-- desestructuración, user viene de slotProps -->
+      <h4>{{ user.first_name }} {{ user.last_name }}</h4>
+      <h6>{{ user.email }}</h6>
+    </user-list>
   </div>
 
   <button @click="previousPage">Atrás</button>
@@ -20,8 +18,10 @@
 <script>
 
 import useUsers from '@/composables/useUsers';
+import UserList from '@/components/UserList';
 
 export default {
+  components: { UserList },
   setup() {
     const {
       users,
